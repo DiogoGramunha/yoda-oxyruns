@@ -1,16 +1,24 @@
 fx_version 'cerulean'
-games {'gta5'}
+use_experimental_fxv2_oal 'yes'
+lua54 'yes'
+game 'gta5'
 
-author 'YODA THINGS'
-description 'YODA OXY RUNS'
+name 'yoda_garbage'
+author 'YodaThings'
 version '1.0.0'
 
-client_scripts {
-    'client.lua',
+shared_script {
+    '@es_extended/imports.lua',
     '@ox_lib/init.lua',
 }
 
+client_script {
+    'config.lua',
+    'ConfigLocs.lua',
+    'client/*.lua'
+}
+
 server_script {
-    'server.lua',
-    '@ox_lib/init.lua',
+    'config.lua',
+    'server/*.lua'
 }
