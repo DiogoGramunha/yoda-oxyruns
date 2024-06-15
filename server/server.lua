@@ -1,29 +1,56 @@
-local ESX = exports["es_extended"]:getSharedObject()
+local inventory = exports.ox_inventory
+local lib = exports.ox_lib
 
-AddEventHandler('yoda-garbage:RentVeh')
-RegisterNetEvent('yoda-garbage:RentVeh', function()
-    local xPlayer = ESX.GetPlayerFromId(source)
-    local rentVeh = false
-    if xPlayer.getInventoryItem('cash').count >= Config.Context.value then
-        xPlayer.removeInventoryItem("cash", Config.Context.value)
-        rentVeh = true
-    elseif xPlayer.getAccount('bank').money >= Config.Context.value then
-        xPlayer.removeAccountMoney('bank', Config.Context.value)
-        rentVeh = true
+RegisterNetEvent('yoda-oxyruns:exchangeDrugs')
+AddEventHandler('yoda-oxyruns:exchangeDrugs', function(sellRandom, priceCocaine)
+    print('exchangeDrugs event received on server')
+
+    local source = source
+    local checkMoney = ox_inventory:GetItem(source, 'cash', nil, true)
+    
+    if checkMoney then
+        print('Player has money')
+    else
+        print('Player does not have money')
     end
-    TriggerClientEvent('yoda-garbage:RentVehResponse', source, rentVeh)
+    
+    if checkMoney and checkMoney >= priceCocaine then
+        print('Player has enough money')
+        ox_inventory:RemoveItem(source, 'cash', priceCocaine)
+        ox_inventory:AddItem(source, 'cocaine', sellRandom)
+        print('Triggering client event giveDrugs')
+        TriggerClientEvent('yoda-oxyruns:giveDrugs', source)
+        lib:notify({ type = 'success', text = 'Job started' })
+    else
+        print('Not enough money')
+        lib:notify({ type = 'error', text = 'Not enough cash' })
+    end
 end)
 
+RegisterNetEvent('yoda-oxyruns:verifyDrugs')
+AddEventHandler('yoda-oxyruns:verifyDrugs', function(priceCocaine)
+    local cacainePrice = priceCocaine
+    local nDrugs = inventory:GetItem(source, 'cocaine', nil, true)
 
-RegisterNetEvent('yoda-garbage:getPayment', function(payment, binsDeposited)
-    print('Evento yoda-garbage:getPayment acionado.')
-    local _source = source
-    if binsDeposited and binsDeposited > 0 then 
-        local totalPayment = (payment * binsDeposited) + Config.Context.value
-        exports.ox_inventory:AddItem(_source, 'cash', totalPayment)
-        TriggerClientEvent('yoda-garbage:Payment', _source, totalPayment)
-    else
-        TriggerClientEvent('yoda-garbage:paymentFail', _source)
-        exports.ox_inventory:AddItem(_source, 'cash', Config.Context.value)
+    if nDrugs == 0 then
+        lib:notify(notEnoughDrugs)
+    else 
+        TriggerClientEvent('yoda-oxyruns:startSelling', function(priceCocaine, nDrugs))
     end
+end)
+
+RegisterNetEvent('yoda-oxyruns:sellToBuyer')
+AddEventHandler('yoda-oxyruns:sellToBuyer', function()
+    local nDrugs = inventory:GetItem(source, 'cocaine', nil, true)
+
+    if nDrugs and nDrugs > 0 then
+        local bugToSell = math.random(1, math.min(3, nDrugs))
+        local sellingPrice = math.random(1, priceCocaineSelling.value) * bagsToSell
+
+        inventory:RemoveItem(source, 'cocaine', bagsToSell)
+        inventory:AddItem(source, 'cash', sellingPrice)
+
+        lib:notify()
+    else
+        lib:notify()
 end)

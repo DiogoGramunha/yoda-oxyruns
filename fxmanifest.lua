@@ -1,9 +1,10 @@
 fx_version 'cerulean'
 use_experimental_fxv2_oal 'yes'
-lua54 'yes'
 game 'gta5'
 
-name 'yoda_garbage'
+lua54 'yes'
+
+name 'yoda_oxyruns'
 author 'YodaThings'
 version '1.0.0'
 
@@ -12,13 +13,13 @@ shared_script {
     '@ox_lib/init.lua',
 }
 
-client_script {
+client_scripts {
     'config.lua',
-    'ConfigLocs.lua',
-    'client/*.lua'
+    'client/client.lua',
+    'client/cl_buyers.lua',
 }
 
 server_script {
     'config.lua',
-    'server/*.lua'
+    'server/server.lua',
 }
