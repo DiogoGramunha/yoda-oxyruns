@@ -18,6 +18,33 @@ Config.Dealers = {
     },
 }
 
+Config.Models = {
+    "a_m_m_hillbilly_02",
+    "a_m_m_salton_04",
+    "a_m_m_polynesian_01",
+    "a_m_m_polynesian_01",
+    "a_m_m_salton_02",
+    "a_m_m_salton_03",
+    "a_m_m_skater_01",
+    "a_m_m_soucent_04",
+    "a_m_m_soucent_03",
+    "a_m_m_skidrow_01",
+    "a_m_m_socenlat_01",
+    "a_m_m_soucent_01",
+    "a_m_o_beach_01",
+    "a_m_o_soucent_03",
+    "a_m_o_tramp_01",
+    "a_m_o_soucent_02",
+    "a_m_o_salton_01",
+    "a_f_m_skidrow_01",
+    "a_f_m_tourist_01",
+    "a_f_m_trampbeac_01",
+    "a_f_o_indian_01",
+    "a_f_y_clubcust_02",
+    "a_f_y_hipster_02",
+    "a_f_y_rurmeth_01"
+}
+
 Config.Buyers = {
     npc1 = {
         coordx = -1067.0746,
