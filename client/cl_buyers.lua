@@ -16,6 +16,10 @@ local function CleanUpBuyer()
         RemoveBlip(currentBlip)
         currentBlip = nil
     end
+    if currentBuyerPed then
+        Wait(10000)
+        currentBuyerPed = nil
+    end
 end
 
 local function CreateBuyerNPC()
@@ -80,6 +84,7 @@ local function CreateBuyerNPC()
                         exports['ps-dispatch']:DrugSale()
                         CleanUpBuyer()
                         CreateBuyerWithDelay()
+                        TaskWanderStandard(currentBuyerPed)
                     end
                 end
             }}
@@ -125,8 +130,6 @@ AddEventHandler('yoda-oxyruns:sellDrugsAnim', function()
     TriggerServerEvent('yoda-oxyruns:verifyDrugs', priceCocaineSelling)
 
     Wait(70000)
-
-    DeleteEntity(ped)
 end)
 
 RegisterNetEvent('yoda-oxyruns:checkDrugs')
@@ -148,7 +151,6 @@ end)
 
 function CreateBuyerWithDelay()
     local delay = math.random(1, 3) * 60000
-
     Citizen.SetTimeout(delay, function()
         local buyerPed, buyerZone, blip = CreateBuyerNPC()
         if buyerPed and buyerZone then
