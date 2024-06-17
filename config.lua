@@ -16,27 +16,10 @@ Config.Dealers = {
         heading = 180.9050,
         RenderDistance = 35
     },
-    weed = {
-        Model = 'a_m_m_og_boss_01',
-        coordx = -1561.5404,
-        coordy = -413.0152,
-        coordz = 37.0961,
-        heading = 180.9050,
-        RenderDistance = 35
-    },
-    meth = {
-        Model = 'a_m_m_og_boss_01',
-        coordx = -1561.5404,
-        coordy = -413.0152,
-        coordz = 37.0961,
-        heading = 180.9050,
-        RenderDistance = 35
-    }
 }
 
 Config.Buyers = {
     npc1 = {
-        Model = 'a_m_m_og_boss_01',
         coordx = -1067.0746,
         coordy = -504.5410,
         coordz = 35.0798,
@@ -44,19 +27,96 @@ Config.Buyers = {
         RenderDistance = 35
     },
     npc2 = {
-        Model = 'a_m_m_og_boss_01',
         coordx = 54.5449,
         coordy = 163.6573,
         coordz = 103.7610,
         heading = 273.0411,
         RenderDistance = 35
+    },
+    npc3 = {
+        coordx = 167.4547,
+        coordy = -1248.3344,
+        coordz = 28.1984,
+        heading = 78.3712,
+        RenderDistance = 35
+    },
+    npc4 = {
+        coordx = -324.8175,
+        coordy = -1356.3646,
+        coordz = 30.2957,
+        heading = 99.2964,
+        RenderDistance = 35
+    },
+    npc5 = {
+        coordx = -1995.7758,
+        coordy = -504.8550,
+        coordz = 11.0130,
+        heading = 238.6174,
+        RenderDistance = 35
+    },
+    npc6 = {
+        coordx = -3102.0952,
+        coordy = 367.3326,
+        coordz = 6.1191,
+        heading = 147.8980,
+        RenderDistance = 35
+    },
+    npc7 = {
+        coordx = -1690.8997,
+        coordy = -431.7747,
+        coordz = 41.3730,
+        heading = 246.4736,
+        RenderDistance = 35
+    },
+    npc8 = {
+        coordx = -1496.6851,
+        coordy = -318.3724,
+        coordz = 45.9418,
+        heading = 126.6329,
+        RenderDistance = 35
+    },
+    npc9 = {
+        coordx = -1336.2859,
+        coordy = -226.7334,
+        coordz = 41.9637,
+        heading = 297.6121,
+        RenderDistance = 35
+    },
+    npc10 = {
+        coordx = -297.0966,
+        coordy = 303.4752,
+        coordz = 89.7184,
+        heading = 0.0307,
+        RenderDistance = 35
+    },
+    npc11 = {
+        coordx = -497.5015,
+        coordy = 79.3391,
+        coordz = 54.9189,
+        heading = 80.6300,
+        RenderDistance = 35
+    },
+    npc12 = {
+        coordx = -594.6409,
+        coordy = 179.6907,
+        coordz = 64.3169,
+        heading = 170.0314,
+        RenderDistance = 35
+    },
+    npc13 = {
+        coordx = 59.7535,
+        coordy = -41.5417,
+        coordz = 68.2935,
+        heading = 253.3634,
+        RenderDistance = 35
     }
 }
 
+
 Config.Notify = {
-    notEnoughDrugs = {
+    dealFailed = {
         title = 'Oxy Runs',
-        description = 'You work is finished!',
+        description = 'Your drugs are a shit, get out of here!',
         duration = 10000,
         type = 'error'
     },
@@ -70,17 +130,11 @@ Config.Notify = {
         title = 'Oxy Runs',
         description = 'Start delivering the packages to the right persons!',
         duration = 10000,
-        type = 'error'
+        type = 'info'
     },
     buyerLocation = {
         title = 'Oxy Runs',
         description = 'A buyer was located for you!',
-        duration = 10000,
-        type = 'success'
-    },
-    sold = {
-        title = 'Oxy Runs',
-        description = 'You sold %d bags of cocaine for $%d.', bagsToSell, sellingPrice,
         duration = 10000,
         type = 'success'
     }

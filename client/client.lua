@@ -3,27 +3,39 @@ local Dealers = Config.Dealers
 local sellRandom = math.random(1, 10)
 local priceCocaine = Config.Price.cocaine
 
+local cooldownActive = false
+local cooldownTime = 0
+
+local function StartCooldown()
+    cooldownActive = true
+    local delay = math.random(10, 15) * 60000
+    cooldownTime = delay
+end
+
 local npczone = exports.ox_target:addBoxZone({
     coords = vec3(Dealers.cocaine.coordx, Dealers.cocaine.coordy, Dealers.cocaine.coordz + 1),
     size = vec3(1.5, 1.5, 1.5),
     rotation = 90,
     debug = drawZones,
     options = {{
-        name = 'yoda-oxyruns:sellDrugs',
+        name = 'yoda-oxyruns:buyCocaine',
         icon = 'fa-solid fa-cube',
-        label = 'Start Selling',
+        label = 'Buy Cocaine',
         onSelect = function()
-            print('TriggerServerEvent exchangeDrugs called')
-            TriggerServerEvent('yoda-oxyruns:exchangeDrugs', sellRandom, priceCocaine)
+            if cooldownActive then
+                exports.ox_lib:notify({ type = 'error', title = 'Oxy Runs', description = 'Wait '.. cooldownTime/60000 ..' minutes bro i need to get more drugs for you.' })
+            else
+                print('TriggerServerEvent exchangeDrugs called')
+                TriggerServerEvent('yoda-oxyruns:exchangeDrugs', sellRandom, priceCocaine)
+                StartCooldown()
+            end
         end
     }}
 })
 
 RegisterNetEvent('yoda-oxyruns:giveDrugs')
 AddEventHandler('yoda-oxyruns:giveDrugs', function()
-    print('giveDrugs event received on client')
     local playerPed = PlayerPedId()
-    local ped = ped
     local animDict = 'mp_common'
     local animName = 'givetake1_a'
     
