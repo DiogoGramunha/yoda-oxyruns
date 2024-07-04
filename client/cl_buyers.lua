@@ -7,6 +7,8 @@ local currentBuyerZone = nil
 local currentBlip = nil
 local lastBuyerIndex = nil
 
+local cooldown = Config.Cooldown
+
 local function CleanUpBuyer()
     if currentBuyerZone then
         exports.ox_target:removeZone(currentBuyerZone)
@@ -150,7 +152,7 @@ AddEventHandler('yoda-oxyruns:startSellingAfterPurchase', function(priceCocaine,
 end)
 
 function CreateBuyerWithDelay()
-    local delay = math.random(1, 3) * 60000
+    local delay = math.random(cooldown.npc.min, cooldown.npc.max) * 60000
     Citizen.SetTimeout(delay, function()
         local buyerPed, buyerZone, blip = CreateBuyerNPC()
         if buyerPed and buyerZone then
