@@ -6,9 +6,11 @@ local priceCocaine = Config.Price.cocaine
 local cooldownActive = false
 local cooldownTime = 0
 
+local cooldown = Config.Cooldown
+
 local function StartCooldown()
     cooldownActive = true
-    local delay = math.random(10, 15) * 60000
+    local delay = math.random(cooldown.delivery.min, cooldown.delivery.max) * 60000
     cooldownTime = delay
 end
 
