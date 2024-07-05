@@ -9,12 +9,20 @@ Config.Price = {
 
 Config.Dealers = {
     cocaine = {
-        Model = 'a_m_m_og_boss_01',
-        coordx = -1561.5404,
-        coordy = -413.0152,
-        coordz = 37.0961,
-        heading = 180.9050,
-        RenderDistance = 35
+        npc1 = {
+            coordx = -1561.5404,
+            coordy = -413.0152,
+            coordz = 37.0961,
+            heading = 180.9050,
+            RenderDistance = 35
+        },
+        --[[ npc2 = {
+            coordx = xcoord,
+            coordy = ycoord,
+            coordz = zcoord,
+            heading = headingcoord,
+            RenderDistance = 35,
+        }, ]]
     },
 }
 
