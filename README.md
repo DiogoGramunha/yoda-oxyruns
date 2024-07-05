@@ -10,6 +10,7 @@
 - You can change the Notifies in config.lua
 - Change the dispatch in cl_buyers.lua (line 80)
 - You can also add more locations to sell the drugs in config.lua
+- You can change the cooldown on config.lua
 
 ## Author 
 
