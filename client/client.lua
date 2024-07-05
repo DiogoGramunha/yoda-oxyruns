@@ -1,3 +1,4 @@
+-- Configurações iniciais
 local NpcLoc = {}
 local Dealers = Config.Dealers
 local sellRandom = math.random(1, 10)
@@ -12,26 +13,88 @@ local function StartCooldown()
     cooldownTime = delay
 end
 
-local npczone = exports.ox_target:addBoxZone({
-    coords = vec3(Dealers.cocaine.coordx, Dealers.cocaine.coordy, Dealers.cocaine.coordz + 1),
-    size = vec3(1.5, 1.5, 1.5),
-    rotation = 90,
-    debug = drawZones,
-    options = {{
-        name = 'yoda-oxyruns:buyCocaine',
-        icon = 'fa-solid fa-cube',
-        label = 'Buy Cocaine',
-        onSelect = function()
-            if cooldownActive then
-                exports.ox_lib:notify({ type = 'error', title = 'Oxy Runs', description = 'Wait '.. cooldownTime/60000 ..' minutes bro i need to get more drugs for you.' })
-            else
-                print('TriggerServerEvent exchangeDrugs called')
-                TriggerServerEvent('yoda-oxyruns:exchangeDrugs', sellRandom, priceCocaine)
-                StartCooldown()
+local dealerCount = 0
+for _ in pairs(Config.Dealers.cocaine) do
+    dealerCount = dealerCount + 1
+end
+
+local currentDealerIndex = 1
+local dealerKeys = {}
+for key in pairs(Config.Dealers.cocaine) do
+    table.insert(dealerKeys, key)
+end
+
+local function UpdateNPCPosition()
+    local dealerKey = dealerKeys[currentDealerIndex]
+    local dealer = Config.Dealers.cocaine[dealerKey]
+    
+    SetEntityCoords(ped, dealer.coordx, dealer.coordy, dealer.coordz, false, false, false, true)
+    SetEntityHeading(ped, dealer.heading)
+
+    exports.ox_target:updateBoxZone(npczone, {
+        coords = vec3(dealer.coordx, dealer.coordy, dealer.coordz + 1),
+    })
+
+    currentDealerIndex = currentDealerIndex % dealerCount + 1
+end
+
+local function StartNPCUpdateTimer()
+    if dealerCount > 1 then
+        Citizen.CreateThread(function()
+            while true do
+                Citizen.Wait(10 * 60 * 1000)  -- 10 minutes
+                UpdateNPCPosition()
             end
-        end
-    }}
-})
+        end)
+    end
+end
+
+Citizen.CreateThread(function()
+    local model = GetHashKey('a_m_m_og_boss_01')
+    RequestModel(model)
+    local timeout = 10000
+    local timer = 0
+    while not HasModelLoaded(model) and timer < timeout do
+        Citizen.Wait(10)
+        timer = timer + 10
+    end
+    if not HasModelLoaded(model) then
+        return
+    end
+    local initialDealer = Config.Dealers.cocaine[dealerKeys[currentDealerIndex]]
+    ped = CreatePed(1, model, initialDealer.coordx, initialDealer.coordy, initialDealer.coordz, initialDealer.heading, false, false, 0)
+    FreezeEntityPosition(ped, true)
+    SetBlockingOfNonTemporaryEvents(ped, true)
+    SetPedDiesWhenInjured(ped, false)
+    SetPedCanPlayAmbientAnims(ped, false)
+    SetPedCanRagdollFromPlayerImpact(ped, false)
+    SetEntityInvincible(ped, true)
+
+    npczone = exports.ox_target:addBoxZone({
+        coords = vec3(initialDealer.coordx, initialDealer.coordy, initialDealer.coordz + 1),
+        size = vec3(1.5, 1.5, 1.5),
+        rotation = 90,
+        debug = drawZones,
+        options = {{
+            name = 'yoda-oxyruns:buyCocaine',
+            icon = 'fa-solid fa-cube',
+            label = 'Buy Cocaine',
+            onSelect = function()
+                if cooldownActive then
+                    exports.ox_lib:notify({ type = 'error', title = 'Oxy Runs', description = 'Wait '.. cooldownTime/60000 ..' minutes bro i need to get more drugs for you.' })
+                else
+                    print('TriggerServerEvent exchangeDrugs called')
+                    TriggerServerEvent('yoda-oxyruns:exchangeDrugs', sellRandom, priceCocaine)
+                    StartCooldown()
+                end
+            end
+        }}
+    })
+
+    Citizen.Wait(10)
+
+    StartNPCUpdateTimer()
+end)
 
 RegisterNetEvent('yoda-oxyruns:giveDrugs')
 AddEventHandler('yoda-oxyruns:giveDrugs', function()
@@ -73,9 +136,9 @@ local function CreateNPCLoc(index)
 
     NpcLoc[index] = {}
 
-    Model(Dealers.cocaine.Model)
+    Model('a_m_m_og_boss_01')
 
-    local npc = CreatePed(5, Dealers.cocaine.Model , Dealers.cocaine.coordx, Dealers.cocaine.coordy, Dealers.cocaine.coordz, 0, false, true)
+    local npc = CreatePed(5, 'a_m_m_og_boss_01' , Dealers.cocaine.coordx, Dealers.cocaine.coordy, Dealers.cocaine.coordz, 0, false, true)
     SetEntityInvincible(npc, true)
     FreezeEntityPosition(npc, true)
     SetBlockingOfNonTemporaryEvents(npc, true)
@@ -92,26 +155,3 @@ local function DeleteLocalNPC(index)
         NpcLoc[index] = nil
     end 
 end
-
-Citizen.CreateThread(function()
-    local model = GetHashKey(Dealers.cocaine.Model)
-    RequestModel(model)
-    local timeout = 10000
-    local timer = 0
-    while not HasModelLoaded(model) and timer < timeout do
-        Citizen.Wait(10)
-        timer = timer + 10
-    end
-    if not HasModelLoaded(model) then
-        return
-    end
-    ped = CreatePed(1, model, Dealers.cocaine.coordx, Dealers.cocaine.coordy, Dealers.cocaine.coordz, Dealers.cocaine.heading, false, false, 0)
-    FreezeEntityPosition(ped, true)
-    SetBlockingOfNonTemporaryEvents(ped, true)
-    SetPedDiesWhenInjured(ped, false)
-    SetPedCanPlayAmbientAnims(ped, false)
-    SetPedCanRagdollFromPlayerImpact(ped, false)
-    SetEntityInvincible(ped, true)
-
-    Citizen.Wait(10)
-end)
