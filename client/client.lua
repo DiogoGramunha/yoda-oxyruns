@@ -1,4 +1,4 @@
--- Configurações iniciais
+-- client.lua
 local NpcLoc = {}
 local Dealers = Config.Dealers
 local sellRandom = math.random(1, 10)
@@ -124,8 +124,11 @@ AddEventHandler('yoda-oxyruns:giveDrugs', function()
     ClearPedTasks(playerPed)
     DeleteObject(cocaineBagplayerPed)
 
+    exports.ox_lib:notify({ type = 'info', title = 'Oxy Runs', description = 'Please wait for the location from the buyer.' })
+
     TriggerServerEvent('yoda-oxyruns:verifyDrugs', priceCocaine)
 end)
+
 
 local function GetNPCLoc(index)
     return NpcLoc[index]
