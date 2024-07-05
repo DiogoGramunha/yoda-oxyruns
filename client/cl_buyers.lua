@@ -1,3 +1,5 @@
+-- cl_buyers.lua
+
 local NpcBuyers = Config.Buyers
 local priceCocaineSelling = Config.Price.priceCocaineSelling
 
