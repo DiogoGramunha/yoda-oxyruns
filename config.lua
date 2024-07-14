@@ -2,12 +2,12 @@ Config = {}
 
 Config.Cooldown = {
     npc = { -- Cooldown between deliveries, min and max in minutes
-        max = 1,
-        min = 3,
+        min = 1,
+        max = 3,
     },
     delivery = { -- Cooldown between new job, min and max in minutes
-        max = 10,
-        min = 15,
+        min = 10,
+        max = 15,
     }
 }
 
