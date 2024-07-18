@@ -6,7 +6,7 @@ lua54 'yes'
 
 name 'yoda_oxyruns'
 author 'YodaThings'
-version '1.0.0'
+version '1.2.0'
 
 shared_script {
     '@ox_lib/init.lua',
