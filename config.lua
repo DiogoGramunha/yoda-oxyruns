@@ -27,7 +27,9 @@ Config.Dealers = {
             heading = 180.9050,
             RenderDistance = 35
         },
-        --[[ npc2 = {
+     },
+  --[[codeine = {
+        npc1 = {
             coordx = xcoord,
             coordy = ycoord,
             coordz = zcoord,
