@@ -35,8 +35,8 @@ Config.Dealers = {
             coordz = zcoord,
             heading = headingcoord,
             RenderDistance = 35,
-        }, ]]
-    },
+        }, 
+    },]]
 }
 
 Config.Models = {
